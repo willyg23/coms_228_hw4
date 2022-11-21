@@ -1,0 +1,147 @@
+package hw4;  
+
+  
+
+public  class  MsgTree{  
+
+public char payloadChar; // char or ^ you're adding to the tree.   
+
+public MsgTree left;  
+
+public MsgTree right;  
+
+  
+
+  
+
+/*Can use a static char idx to the tree string for recursive   
+
+  
+
+solution, but it is not strictly necessary*/  
+
+  
+
+private static int staticCharIdx = 0; // static means value is same across all function calls  
+  
+
+//Constructor building the tree from a string  
+
+  
+
+public MsgTree(String encodingString){  
+
+	// another case i'm not thinking of? another base case? 	 
+
+	// if it only has 1 element?  
+
+	if(encodingString == null){ // base case for faulty input 
+
+		return; 
+
+	}  
+
+	if(staticCharIdx >= encodingString.length()) { // base case for faulty input 
+
+		return;  
+
+	}  
+
+	 
+
+	if(encodingString.charAt(staticCharIdx) != '^') { // base case, if a leaf 
+
+
+	//payloadChar = encodingString.charAt(staticCharIdx);  
+	char c = encodingString.charAt(staticCharIdx);  
+
+	payloadChar = c; 
+	staticCharIdx++;  
+
+	this.left = new MsgTree(encodingString);  
+	this.right = new MsgTree(encodingString);  
+
+  
+
+	} 
+
+  
+
+}  
+
+	//Constructor for a single node with null children  
+
+	//Constructor for the iterative version 
+
+	public MsgTree(char payloadChar){ 
+
+	this.payloadChar = payloadChar; 
+	left = null; 
+	right = null; 
+	}   
+
+	
+	private static void getCodes() {
+		
+	}
+	
+	//method to print characters and their binary codes  
+	//will use getCodes
+	public static void printCodes(MsgTree root, String code){ 
+		
+		 
+		
+	}  
+	
+	public String decode(String encodeNumber){
+		//MsgTree currentTree = new MsgTree(encodeNumber);
+		MsgTree currentTree = this; // now at top of currentTree
+		MsgTree topOfTree = this; // now at top of currentTree
+		
+		
+		
+		//boolean endOfTree == false;
+		
+		int indexAtDecodeNum = 0;
+		String returnString = "";
+		
+		while(indexAtDecodeNum < encodeNumber.length()){
+			
+			if(currentTree.payloadChar != '^') { // if at a leaf
+				returnString += currentTree.payloadChar;
+				currentTree = topOfTree;// go back up
+			}
+			
+			else { // if at an internal node
+				if(encodeNumber.charAt(indexAtDecodeNum) == 0) {// need to parse ints, not chars
+					currentTree = currentTree.left;
+				}
+				else if(encodeNumber.charAt(indexAtDecodeNum) == 1) {// need to parse ints, not chars
+					currentTree = currentTree.right;
+				}
+			}
+			indexAtDecodeNum++;
+		}
+		
+		
+		
+		
+		return encodeNumber;
+		
+	}
+
+  
+
+}
+
+  
+
+   
+
+  
+
+  
+
+ 
+
+ 
