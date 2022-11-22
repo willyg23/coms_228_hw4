@@ -60,13 +60,7 @@ public MsgTree(String encodingString){
 
 	this.left = new MsgTree(encodingString);  
 	this.right = new MsgTree(encodingString);  
-
-  
-
-	} 
-
-  
-
+	}
 }  
 
 	//Constructor for a single node with null children  
@@ -81,8 +75,135 @@ public MsgTree(String encodingString){
 	}   
 
 	
-	private static void getCodes() {
+	private static void getCodes(String encodeNumber) {
 		
+		
+		// ^ adds a 0 no matter what
+		// char add a 1, changes the last 0 to 1
+		
+		char c = ' ';
+		String binaryString = " ";
+		int lastIndexOfZero;
+		
+		for(int i = 1; i < encodeNumber.length(); i++) {
+			c = encodeNumber.charAt(i);
+			
+			if(c != '^') {
+				binaryString += '1';
+//				for(int j =  encodeNumber.length() -1; j > -1; j++) {
+//					if(binaryString.charAt(i) == '0'){
+//
+//				        binaryString = binaryString.substring(0, i) + 1 + binaryString.substring(i + 1);
+//					}
+//				}
+				
+				lastIndexOfZero = binaryString.lastIndexOf("0");
+				
+				
+				if(lastIndexOfZero == -1) {
+					lastIndexOfZero = 0;
+				}
+				
+			}
+			
+			else {
+				binaryString += '0';
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		String pathway = "";
+		
+		for(int i = 1; i < encodeNumber.length(); i++) {
+			
+			if(encodeNumber.charAt(i) == '^') {
+				
+			}
+			
+			
+			if(encodeNumber.charAt(i) != '^') {
+				
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		int numOfChars = 0;
+		
+		for(int i = 0; i < encodeNumber.length(); i++) {
+			if(encodeNumber.charAt(i) != '^') {
+				numOfChars++;
+			}
+		}
+		
+		String[] 
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		MsgTree currentTree = new MsgTree(encodeNumber); //start at top of tree
+		MsgTree topOfTree = new MsgTree(encodeNumber); // when you need to reset to top of tree
+		String returnBinaryString = "";
+		
+		
+		
+		
+		currentTree = currentTree.left;
 	}
 	
 	//method to print characters and their binary codes  
