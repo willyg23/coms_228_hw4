@@ -75,7 +75,7 @@ public MsgTree(String encodingString){
 	}   
 
 	
-	private static void getCodes(String encodeNumber) {
+	public static void getCodes(String encodeNumber) { // will get codes and print codes
 		
 		
 		// ^ adds a 0 no matter what
@@ -124,18 +124,6 @@ public MsgTree(String encodingString){
 				binaryString += '0';
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 //		
@@ -211,6 +199,8 @@ public MsgTree(String encodingString){
 		
 	}  
 	
+	
+	
 	public String decode(String encodeNumber){
 		//MsgTree currentTree = new MsgTree(encodeNumber);
 		MsgTree currentTree = this; // now at top of currentTree
@@ -240,10 +230,6 @@ public MsgTree(String encodingString){
 			}
 			indexAtDecodeNum++;
 		}
-		
-		
-		
-		
 		return returnString;
 		
 	}
