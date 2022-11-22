@@ -1,37 +1,207 @@
 package hw4;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Scanner;
+import java.util.Stack;
 
-public class TestMain {
+public class MsgTree {
 
-	public static void main(String args[]) throws IOException {
-		System.out.println("Please enter a file name to test");
-		Scanner scnr = new Scanner(System.in);
-		String fileName = scnr.nextLine();
-		
-		scnr.close();
-		
-		Path path = Paths.get(fileName);
-		String fileString = Files.readString(path).trim();
-		
-		
-		int p = fileString.lastIndexOf('\n');
-		
-		
-		String pattern = fileString.substring(0, p);
-		String binaryMessage = fileString.substring(p).trim();
-		
-		
-		MsgTree root = new MsgTree(pattern);
-		MsgTree.getCodes(pattern);
-		//System.out.println(root.left.payloadChar);
-		System.out.println(root.decode(binaryMessage));
-		
-		
+	public char payloadChar; // char or ^ you're adding to the tree.
+
+	public MsgTree left;
+
+	public MsgTree right;
+
+	/*
+	 * Can use a static char idx to the tree string for recursive
+	 * 
+	 * 
+	 * 
+	 * solution, but it is not strictly necessary
+	 */
+
+	private static int staticCharIdx = 0; // static means value is same across all function calls
+
+//Constructor building the tree from a string  
+
+	public MsgTree(String encodingString) {
+
+		// another case i'm not thinking of? another base case?
+
+		// if it only has 1 element?
+
+		if (encodingString == null) { // base case for faulty input
+			return;
+		}
+
+		if (staticCharIdx >= encodingString.length()) { // base case for faulty input
+			return;
+		}
+
+		// payloadChar = encodingString.charAt(staticCharIdx);
+		char c = encodingString.charAt(staticCharIdx);
+
+		payloadChar = c;
+		staticCharIdx++;
+
+		if (c == '^') { // base case, if a leaf don't go left and right
+			this.left = new MsgTree(encodingString);
+			this.right = new MsgTree(encodingString);
+		}
 	}
-	
+
+	// Constructor for a single node with null children
+
+	// Constructor for the iterative version
+
+	public MsgTree(char payloadChar) {
+
+		this.payloadChar = payloadChar;
+		left = null;
+		right = null;
+	}
+
+	public static void getCodes(String encodeNumber) { // will get codes and print codes
+
+		// iterative method, works well
+		// ^ adds a 0 no matter what
+		// char add a 1, changes the last 0 to 1
+
+		char c = ' ';
+		String binaryString = "";
+		int lastIndexOfZero;
+
+		// Stack<Integer> stk = new Stack<>();
+
+		for (int i = 0; i < encodeNumber.length(); i++) {
+			c = encodeNumber.charAt(i);
+
+			if (c != '^') {
+
+//				for(int j =  encodeNumber.length() -1; j > -1; j++) {
+//					if(binaryString.charAt(i) == '0'){
+//
+//				        binaryString = binaryString.substring(0, i) + 1 + binaryString.substring(i + 1);
+//					}
+//				}
+
+				if (c == '\n') {
+					System.out.println("      \\n      " + binaryString);
+				} else {
+					System.out.println("      " + c + "      " + binaryString);
+				}
+
+				lastIndexOfZero = binaryString.lastIndexOf("0");
+
+				if (lastIndexOfZero == -1) {
+					lastIndexOfZero = 0;
+				}
+
+				binaryString = binaryString.substring(0, lastIndexOfZero) + "1";
+
+			}
+
+			else {
+				binaryString += '0';
+			}
+		}
+
+//		
+//		//attempt 3
+//		String pathway = "";
+//		
+//		for(int i = 1; i < encodeNumber.length(); i++) {
+//			
+//			if(encodeNumber.charAt(i) == '^') {
+//				
+//			}
+//			
+//			
+//			if(encodeNumber.charAt(i) != '^') {
+//				
+//			}
+//			
+//		}
+//		
+//		
+//		
+//		
+//		
+//		//attempt 2
+//		
+//		int numOfChars = 0;
+//		
+//		for(int i = 0; i < encodeNumber.length(); i++) {
+//			if(encodeNumber.charAt(i) != '^') {
+//				numOfChars++;
+//			}
+//		}
+//		
+//		String[] 
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		//attempt 1
+//		
+//		MsgTree currentTree = new MsgTree(encodeNumber); //start at top of tree
+//		MsgTree topOfTree = new MsgTree(encodeNumber); // when you need to reset to top of tree
+//		String returnBinaryString = "";
+//		
+//		
+//		
+//		
+//		currentTree = currentTree.left;
+	}
+
+	// method to print characters and their binary codes
+	// will use getCodes
+	public static void printCodes(MsgTree root, String code) {
+
+	}
+
+	public String decode(String encodeNumber) {
+		// MsgTree currentTree = new MsgTree(encodeNumber);
+		MsgTree currentTree = this; // now at top of currentTree
+		MsgTree topOfTree = this; // now at top of currentTree
+		// boolean endOfTree == false;
+
+		int indexAtDecodeNum = 0;
+		String returnString = "";
+
+		while (indexAtDecodeNum < encodeNumber.length()) {
+
+			
+			// if at an internal node
+			if (encodeNumber.charAt(indexAtDecodeNum) == '0') {// need to parse ints, not chars
+				currentTree = currentTree.left;
+			} else {// need to parse ints, not chars
+				currentTree = currentTree.right;
+			}
+			
+			if (currentTree.payloadChar != '^') { // if at a leaf
+				returnString = returnString + currentTree.payloadChar;
+				currentTree = topOfTree;// go back up
+			}
+			System.out.println(returnString);
+			indexAtDecodeNum++;
+		}
+		return returnString;
+
+	}
 }
