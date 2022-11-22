@@ -1,6 +1,6 @@
-package hw4;  
+package hw4;
 
-  
+import java.util.Stack;
 
 public  class  MsgTree{  
 
@@ -85,11 +85,14 @@ public MsgTree(String encodingString){
 		String binaryString = " ";
 		int lastIndexOfZero;
 		
+		//Stack<Integer> stk = new Stack<>();
+		
+		
 		for(int i = 1; i < encodeNumber.length(); i++) {
 			c = encodeNumber.charAt(i);
 			
 			if(c != '^') {
-				binaryString += '1';
+				
 //				for(int j =  encodeNumber.length() -1; j > -1; j++) {
 //					if(binaryString.charAt(i) == '0'){
 //
@@ -97,12 +100,23 @@ public MsgTree(String encodingString){
 //					}
 //				}
 				
+				if( c == '\n') {
+					System.out.println("      \\n      " + binaryString);
+				}
+				else {
+					System.out.println("      " + c + "      " + binaryString);
+				}
+				
 				lastIndexOfZero = binaryString.lastIndexOf("0");
 				
 				
 				if(lastIndexOfZero == -1) {
 					lastIndexOfZero = 0;
 				}
+				
+				
+				binaryString = binaryString.substring(0,lastIndexOfZero) + "1";
+				
 				
 			}
 			
@@ -124,86 +138,69 @@ public MsgTree(String encodingString){
 		
 		
 		
-		
-		
-		String pathway = "";
-		
-		for(int i = 1; i < encodeNumber.length(); i++) {
-			
-			if(encodeNumber.charAt(i) == '^') {
-				
-			}
-			
-			
-			if(encodeNumber.charAt(i) != '^') {
-				
-			}
-			
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		int numOfChars = 0;
-		
-		for(int i = 0; i < encodeNumber.length(); i++) {
-			if(encodeNumber.charAt(i) != '^') {
-				numOfChars++;
-			}
-		}
-		
-		String[] 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		MsgTree currentTree = new MsgTree(encodeNumber); //start at top of tree
-		MsgTree topOfTree = new MsgTree(encodeNumber); // when you need to reset to top of tree
-		String returnBinaryString = "";
-		
-		
-		
-		
-		currentTree = currentTree.left;
+//		
+//		//attempt 3
+//		String pathway = "";
+//		
+//		for(int i = 1; i < encodeNumber.length(); i++) {
+//			
+//			if(encodeNumber.charAt(i) == '^') {
+//				
+//			}
+//			
+//			
+//			if(encodeNumber.charAt(i) != '^') {
+//				
+//			}
+//			
+//		}
+//		
+//		
+//		
+//		
+//		
+//		//attempt 2
+//		
+//		int numOfChars = 0;
+//		
+//		for(int i = 0; i < encodeNumber.length(); i++) {
+//			if(encodeNumber.charAt(i) != '^') {
+//				numOfChars++;
+//			}
+//		}
+//		
+//		String[] 
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		//attempt 1
+//		
+//		MsgTree currentTree = new MsgTree(encodeNumber); //start at top of tree
+//		MsgTree topOfTree = new MsgTree(encodeNumber); // when you need to reset to top of tree
+//		String returnBinaryString = "";
+//		
+//		
+//		
+//		
+//		currentTree = currentTree.left;
 	}
 	
 	//method to print characters and their binary codes  
