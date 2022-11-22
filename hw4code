@@ -64,6 +64,18 @@ public class MsgTree {
 		// iterative method, works well
 		// ^ adds a 0 no matter what
 		// char add a 1, changes the last 0 to 1
+		
+		
+		/*
+		 * if you come across a char / anything that's not '^'
+		 * 	print the char, then replace the last index of zero with 1
+		 * 	this will go as far left as possible on the tree, once a leaf is hit, will go back up to the most recent chance it could've gone 
+		 * 	right (1) instead of left (0). Also known as preorder traversal
+		 * 
+		 * else - a.k.a come across a '^'
+		 * 	add a 0 to the string
+		 * 	this statement will keep it going to the left until it no longer can (when it comes across a char)
+		 */
 
 		char c = ' ';
 		String binaryString = "";
@@ -74,7 +86,7 @@ public class MsgTree {
 		for (int i = 0; i < encodeNumber.length(); i++) {
 			c = encodeNumber.charAt(i);
 
-			if (c != '^') {
+			if (c != '^') { //if you come across a char / anything that's not '^'
 
 //				for(int j =  encodeNumber.length() -1; j > -1; j++) {
 //					if(binaryString.charAt(i) == '0'){
@@ -91,15 +103,16 @@ public class MsgTree {
 
 				lastIndexOfZero = binaryString.lastIndexOf("0");
 
-				if (lastIndexOfZero == -1) {
+				
+				if (lastIndexOfZero == -1) { // if there is no 0 in the string, meaning you have fully traversed the tree
 					lastIndexOfZero = 0;
 				}
 
-				binaryString = binaryString.substring(0, lastIndexOfZero) + "1";
+				binaryString = binaryString.substring(0, lastIndexOfZero) + "1"; // replace last index of zero with a 1
 
 			}
 
-			else {
+			else { //  come across a '^'
 				binaryString += '0';
 			}
 		}
@@ -138,25 +151,8 @@ public class MsgTree {
 //		String[] 
 //		
 //		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
+		
+		
 //		//attempt 1
 //		
 //		MsgTree currentTree = new MsgTree(encodeNumber); //start at top of tree
@@ -168,6 +164,8 @@ public class MsgTree {
 //		
 //		currentTree = currentTree.left;
 	}
+	
+	
 
 	// method to print characters and their binary codes
 	// will use getCodes
@@ -204,4 +202,6 @@ public class MsgTree {
 		return returnString;
 
 	}
+	
+	
 }
