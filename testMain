@@ -25,7 +25,7 @@ public class TestMain {
 		String pattern = fileString.substring(0, p);
 		String binaryMessage = fileString.substring(p).trim();
 		
-		
+		  
 		MsgTree root = new MsgTree(pattern);
 		MsgTree.getCodes(pattern);
 		//System.out.println(root.left.payloadChar);
