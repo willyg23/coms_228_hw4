@@ -1,0 +1,35 @@
+package hw4;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
+public class TestMain {
+
+	public static void main(String args[]) throws IOException {
+		System.out.println("Please enter a file name to test");
+		Scanner scnr = new Scanner(System.in);
+		String fileName = scnr.nextLine();
+		
+		scnr.close();
+		
+		Path path = Paths.get(fileName);
+		String fileString = Files.readString(path).trim();
+		
+		
+		int p = fileString.lastIndexOf('\n');
+		
+		
+		String pattern = fileString.substring(0, p);
+		String binaryMessage = fileString.substring(p).trim();
+		
+		
+		MsgTree root = new MsgTree(pattern);
+		MsgTree.getCodes(pattern);
+		root.decode(binaryMessage);
+		
+	}
+	
+}
