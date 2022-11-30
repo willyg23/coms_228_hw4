@@ -34,4 +34,13 @@ public class TestMain {
 		
 	}
 	
+	
+	//print codes can apparently be 6-7 lines
+	// for this you'd have
+	/*
+	 * if(^)
+	 * 	recursive call, similar to constructor where you call new left and new right
+	 * else / if character
+	 * 	return something
+	 */
 }
