@@ -271,33 +271,79 @@ public class MsgTree {
 		int indexAtCode = 0;
 		String binaryCode = "";
 		
-		while(indexAtCode < code.length()) {
-			
-			if(currentTree.payloadChar != '^') {
-				
-				if (currentTree.payloadChar == '\n') {
-					System.out.println("      \\n      " + binaryCode);
-				} 
-				else {
-					System.out.println("      " + currentTree.payloadChar + "      " + binaryCode);
-				}
-			
-				currentTree = topOfTree;
-				binaryCode = "";
-			}
-			
-			if(code.charAt(indexAtCode) == '0') {
-				binaryCode += '0';
-				currentTree = currentTree.left;
-			}
-			else if(code.charAt(indexAtCode) == '1') {
-				binaryCode += '1';
-				currentTree = currentTree.right;
-			}
-			
-			indexAtCode++;
+		
+		// base case
+		
+		if(root == null)
+		{
+			return;
 		}
 		
+		if(root.left != null)
+		{
+			printCodes(root.left, code + "0");
+			
+			
+		}
+		if(root.right != null)
+		{
+			
+			printCodes(root.right, code + "1");
+			}
+			
+		if(root.payloadChar != '^') {
+			
+			if (root.payloadChar == '\n') {
+				System.out.println("      \\n      " + code);
+			} 
+			else if(root.payloadChar == ' ') {
+				System.out.println("      (space character)     " + code);
+			}
+			else {
+				System.out.println("      " + root.payloadChar + "      " + code);
+			}
+			
+			
+		}
+		
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		while(indexAtCode < code.length()) {
+//			
+//			if(currentTree.payloadChar != '^') {
+//				
+//				if (currentTree.payloadChar == '\n') {
+//					System.out.println("      \\n      " + binaryCode);
+//				} 
+//				else {
+//					System.out.println("      " + currentTree.payloadChar + "      " + binaryCode);
+//				}
+//			
+//				currentTree = topOfTree;
+//				binaryCode = "";
+//			}
+//			
+//			if(code.charAt(indexAtCode) == '0') {
+//				binaryCode += '0';
+//				currentTree = currentTree.left;
+//			}
+//			else if(code.charAt(indexAtCode) == '1') {
+//				binaryCode += '1';
+//				currentTree = currentTree.right;
+//			}
+//			
+//			indexAtCode++;
+//		}
+//		
 		
 	
 		
@@ -360,7 +406,7 @@ public class MsgTree {
 				returnString = returnString + currentTree.payloadChar;
 				currentTree = topOfTree;// go back up
 			}
-			System.out.println(returnString);
+			//System.out.println(returnString);
 			indexAtDecodeNum++;
 		}
 		return returnString;
