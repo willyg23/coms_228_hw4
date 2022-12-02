@@ -27,7 +27,8 @@ public class TestMain {
 		
 		  
 		MsgTree root = new MsgTree(pattern);
-		MsgTree.getCodes(pattern);
+		MsgTree.printCodes(root, "");
+		//MsgTree.getCodes(pattern);
 		//System.out.println(root.left.payloadChar);
 		System.out.println(root.decode(binaryMessage));
 		
@@ -43,4 +44,29 @@ public class TestMain {
 	 * else / if character
 	 * 	return something
 	 */
+	
+	
+	
+	
+//	int i = 0;
+//	int numberYouWant = 5;
+//	
+//	
+//	int[] intArray = new int[5];
+//	while(i < intArray.length ) {
+//		
+//		intArray[i] = numberYouWant;
+//		i++;
+//	}
+//	
+//	
+//	intArray[0] = numberYouWant;
+//	intArray[1] = numberYouWant;
+//	intArray[2] = numberYouWant;
+	
 }
+	
+	
+	
+	
+
