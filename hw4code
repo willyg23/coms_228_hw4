@@ -1,417 +1,72 @@
 package hw4;
 
-import java.util.Stack;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
+public class TestMain {
 
-
-
-
-
-public class MsgTree {
-	public char payloadChar; // char or ^ you're adding to the tree.
-	public MsgTree left;
-	public MsgTree right;
-	
-	
-	private static int staticCharIdx = 0;
-
-	
-	public MsgTree(String encodingString) {
-		if (encodingString == null || encodingString.length() < 2) { // an encodingString of < 2 length would just be "^"
-			return;
-		}
-
-// stack keeps track of where you've gone. If a node's been on the stack, and has been pushed off the stack, you are now done with that node
-		Stack<MsgTree> stk = new Stack<>();
-		int encodingStringIndex = 0;
-		this.payloadChar = encodingString.charAt(encodingStringIndex);
-		encodingStringIndex++;
-		stk.push(this);
-		MsgTree current = this; // current keeps track of where you're currently at
-
-		String previousOperation = "L"; // you will always start going left on the tree, as the first node is always '^'
-
-// when a '^' is reached, we add it onto the stack because we will go left after it
+	public static void main(String args[]) throws IOException {
+		System.out.println("Please enter a file name to test");
+		Scanner scnr = new Scanner(System.in);
+		String fileName = scnr.nextLine();
 		
-/*
- *  when a character is reached, we pop, because there is nowhere to go after the character for it is a leaf
- *  then set previous operation to Right, because we will go back up the tree by 1 edge, then go to the Right
- */
-
-
-
-
-		while (encodingStringIndex < encodingString.length()) {
-			
-			MsgTree nodeAtStringIndex = new MsgTree(encodingString.charAt(encodingStringIndex));
-			encodingStringIndex++;
-			
-			if (previousOperation.equals("L")) { 
-				
-				current.left = nodeAtStringIndex; // going left on the tree
-				
-				if (nodeAtStringIndex.payloadChar == '^') { 
-					// if you hit a '^', push it onto the stack
-					current = stk.push(nodeAtStringIndex);
-					previousOperation = "L"; // you will next go left on the tree, as you last hit an internal node
-					
-				} else { // if you hit a character and the stack isn't empty, 
-					if (!stk.empty())
-
-						current = stk.pop();
-					previousOperation = "R"; // you will next go right on the tree, as you last hit a character
-				}
-			} else { // previousOpertion is right, the last character you hit was not a '^'
-				
-				current.right = nodeAtStringIndex; // going right on the tree
-				
-				if (nodeAtStringIndex.payloadChar == '^') {
-					current = stk.push(nodeAtStringIndex);
-					previousOperation = "L"; // you will next go left on the tree, as you last hit an internal node
-					
-				} else { // if you hit a character and the stack isn't empty, 
-					if (!stk.empty())
-						current = stk.pop();
-					previousOperation = "R"; // you will next go right on the tree, as you last hit a character
-				}
-			}
-		}
+		scnr.close();
+		
+		Path path = Paths.get(fileName);
+		String fileString = Files.readString(path).trim();
+		
+		
+		int p = fileString.lastIndexOf('\n');
+		
+		
+		String pattern = fileString.substring(0, p);
+		String binaryMessage = fileString.substring(p).trim();
+		
+		  
+		MsgTree root = new MsgTree(pattern);
+		MsgTree.printCodes(root, "");
+		//MsgTree.getCodes(pattern);
+		//System.out.println(root.left.payloadChar);
+		System.out.println(root.decode(binaryMessage));
+		
+		
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//public class MsgTree {
-//
-//	public char payloadChar; // char or ^ you're adding to the tree.
-//
-//	public MsgTree left;
-//
-//	public MsgTree right;
-//
-//	/*
-//	 * Can use a static char idx to the tree string for recursive
-//	 * 
-//	 * 
-//	 * 
-//	 * solution, but it is not strictly necessary
-//	 */
-//
-//	private static int staticCharIdx = 0; // static means value is same across all function calls
-//
-////Constructor building the tree from a string  
-//
-//	public MsgTree(String encodingString) {
-//
-//		// another case i'm not thinking of? another base case?
-//
-//		// if it only has 1 element?
-//
-//		if (encodingString == null) { // base case for faulty input
-//			return;
-//		}
-//
-//		if (staticCharIdx >= encodingString.length()) { // base case for faulty input
-//			return;
-//		}
-//
-//		// payloadChar = encodingString.charAt(staticCharIdx);
-//		char c = encodingString.charAt(staticCharIdx);
-//
-//		payloadChar = c;
-//		staticCharIdx++;
-//
-//		if (c == '^') { // base case, if a leaf don't go left and right
-//			this.left = new MsgTree(encodingString);
-//			this.right = new MsgTree(encodingString);
-//		}
+	
+	
+	//print codes can apparently be 6-7 lines
+	// for this you'd have
+	/*
+	 * if(^)
+	 * 	recursive call, similar to constructor where you call new left and new right
+	 * else / if character
+	 * 	return something
+	 */
+	
+	
+	
+	
+//	int i = 0;
+//	int numberYouWant = 5;
+//	
+//	
+//	int[] intArray = new int[5];
+//	while(i < intArray.length ) {
+//		
+//		intArray[i] = numberYouWant;
+//		i++;
 //	}
-
-	
-	
-	
-	// Constructor for a single node with null children
-
-	// Constructor for the iterative version
-
-	public MsgTree(char payloadChar) {
-
-		this.payloadChar = payloadChar;
-		left = null;
-		right = null;
-	}
-
-	public static void getCodes(String encodeNumber) { // will get codes and print codes
-
-		// iterative method, works well
-		// ^ adds a 0 no matter what
-		// char add a 1, changes the most recent 0 to 1
-		
-		
-		/*
-		 * if you come across a char / anything that's not '^'
-		 * 	print the char, then replace the last index of zero with 1
-		 * 	this will go as far left as possible on the tree, once a leaf is hit, will go back up to the most recent chance it could've gone 
-		 * 	right (1) instead of left (0). Also known as preorder traversal
-		 * 
-		 * else - a.k.a come across a '^'
-		 * 	add a 0 to the string
-		 * 	this statement will keep it going to the left until it no longer can (when it comes across a char)
-		 */
-
-		char c = ' ';
-		String binaryString = "";
-		int lastIndexOfZero;
-
-		// Stack<Integer> stk = new Stack<>();
-
-		for (int i = 0; i < encodeNumber.length(); i++) {
-			c = encodeNumber.charAt(i);
-
-			if (c != '^') { //if you come across a char / anything that's not '^'
-
-//				for(int j =  encodeNumber.length() -1; j > -1; j++) {
-//					if(binaryString.charAt(i) == '0'){
-//
-//				        binaryString = binaryString.substring(0, i) + 1 + binaryString.substring(i + 1);
-//					}
-//				}
-
-				if (c == '\n') {
-					System.out.println("      \\n      " + binaryString);
-				} else {
-					System.out.println("      " + c + "      " + binaryString);
-				}
-
-				lastIndexOfZero = binaryString.lastIndexOf("0");
-
-				
-				if (lastIndexOfZero == -1) { // if there is no 0 in the string, meaning you have fully traversed the tree
-					lastIndexOfZero = 0;
-				}
-
-				binaryString = binaryString.substring(0, lastIndexOfZero) + "1"; // replace last index of zero with a 1
-
-			}
-
-			else { //  come across a '^'
-				binaryString += '0';
-			}
-		}
-
-//		
-//		//attempt 3
-//		String pathway = "";
-//		
-//		for(int i = 1; i < encodeNumber.length(); i++) {
-//			
-//			if(encodeNumber.charAt(i) == '^') {
-//				
-//			}
-//			
-//			
-//			if(encodeNumber.charAt(i) != '^') {
-//				
-//			}
-//			
-//		}
-//		
-//		
-//		
-//		
-//		
-//		//attempt 2
-//		
-//		int numOfChars = 0;
-//		
-//		for(int i = 0; i < encodeNumber.length(); i++) {
-//			if(encodeNumber.charAt(i) != '^') {
-//				numOfChars++;
-//			}
-//		}
-//		
-//		String[] 
-//		
-//		
-		
-		
-//		//attempt 1
-//		
-//		MsgTree currentTree = new MsgTree(encodeNumber); //start at top of tree
-//		MsgTree topOfTree = new MsgTree(encodeNumber); // when you need to reset to top of tree
-//		String returnBinaryString = "";
-//		
-//		
-//		
-//		
-//		currentTree = currentTree.left;
-	}
-	
-	
-
-	// method to print characters and their binary codes
-	public static void printCodes(MsgTree root, String code) {
-	
-		
-		MsgTree currentTree = root;
-		MsgTree topOfTree = root; 
-		int indexAtCode = 0;
-		String binaryCode = "";
-		
-		
-		// base case
-		
-		if(root == null)
-		{
-			return;
-		}
-		
-		if(root.left != null)
-		{
-			printCodes(root.left, code + "0");
-			
-			
-		}
-		if(root.right != null)
-		{
-			
-			printCodes(root.right, code + "1");
-			}
-			
-		if(root.payloadChar != '^') {
-			
-			if (root.payloadChar == '\n') {
-				System.out.println("      \\n      " + code);
-			} 
-			else if(root.payloadChar == ' ') {
-				System.out.println("      (space character)     " + code);
-			}
-			else {
-				System.out.println("      " + root.payloadChar + "      " + code);
-			}
-			
-			
-		}
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		while(indexAtCode < code.length()) {
-//			
-//			if(currentTree.payloadChar != '^') {
-//				
-//				if (currentTree.payloadChar == '\n') {
-//					System.out.println("      \\n      " + binaryCode);
-//				} 
-//				else {
-//					System.out.println("      " + currentTree.payloadChar + "      " + binaryCode);
-//				}
-//			
-//				currentTree = topOfTree;
-//				binaryCode = "";
-//			}
-//			
-//			if(code.charAt(indexAtCode) == '0') {
-//				binaryCode += '0';
-//				currentTree = currentTree.left;
-//			}
-//			else if(code.charAt(indexAtCode) == '1') {
-//				binaryCode += '1';
-//				currentTree = currentTree.right;
-//			}
-//			
-//			indexAtCode++;
-//		}
-//		
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		MsgTree currentTree = root; // now at top of currentTree
-//		MsgTree topOfTree = root; 
-//		MsgTree left ;
-//		MsgTree right;
-//		
-//		char c = currentTree.payloadChar;
-//		
-//		if(c == '^') {
-//			left = new MsgTree(code);
-//			right = new MsgTree(code);
-//		}
-//		else {
-//			System.out.println("      " + currentTree.payloadChar + "    ");
-//		}
-//		
-		
-		
-		
-		
-	}
-		
-
-
-
-	public String decode(String encodeNumber) {
-		// MsgTree currentTree = new MsgTree(encodeNumber);
-		MsgTree currentTree = this; // now at top of currentTree
-		MsgTree topOfTree = this; // now at top of currentTree
-		// boolean endOfTree == false;
-
-		int indexAtDecodeNum = 0;
-		String returnString = "";
-
-		while (indexAtDecodeNum < encodeNumber.length()) {
-
-			
-			// if at an internal node
-			if (encodeNumber.charAt(indexAtDecodeNum) == '0') {// need to parse ints, not chars
-				currentTree = currentTree.left;
-			} else {// need to parse ints, not chars
-				currentTree = currentTree.right;
-			}
-			
-			if (currentTree.payloadChar != '^') { // if at a leaf
-				returnString = returnString + currentTree.payloadChar;
-				currentTree = topOfTree;// go back up
-			}
-			//System.out.println(returnString);
-			indexAtDecodeNum++;
-		}
-		return returnString;
-
-	}
-	
+//	
+//	
+//	intArray[0] = numberYouWant;
+//	intArray[1] = numberYouWant;
+//	intArray[2] = numberYouWant;
 	
 }
+	
+	
+	
+	
+
